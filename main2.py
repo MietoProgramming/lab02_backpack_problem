@@ -114,16 +114,18 @@ def main():
     # Create a figure with a 3x2 grid of subplots
     fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
     plt.subplots_adjust(left=None, bottom=None, right=None,
-                        top=0.9, wspace=0.3, hspace=0.5)
+                        top=0.9, wspace=0.85, hspace=0.5)
 
     table1 = generateTable(items, genoms1)
     table2 = generateTable(items, genoms2)
     
-    rows = ['No', 'Weight', 'Value']
-    numbers = [i for i in range(1, 21)]
-    rows += numbers
+    rows = ['Items Index', 'Weight', 'Value'] + \
+        ['Individual ' + str(i) for i in range(1, 21)]
 
     # TABLE 1
+    # plt.rcParams['axes.titley'] = 1    # y is in axes-relative coordinates.
+    plt.rcParams['axes.titlepad'] = 30
+    axs[0, 0].set_title("Generating 1 Table")
     axs[0, 0].axis('off')
     table = axs[0, 0].table(cellText=table1, cellLoc='center',
                             loc='center', rowLabels=rows)
@@ -138,6 +140,7 @@ def main():
             cell.set_fontweight('bold')
 
     # TABLE 2
+    axs[0, 1].set_title("Generating 2 Table")
     axs[0, 1].axis('off')
     table = axs[0, 1].table(cellText=table2, cellLoc='center',
                             loc='center', rowLabels=rows)
