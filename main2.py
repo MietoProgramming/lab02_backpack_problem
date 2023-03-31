@@ -77,7 +77,7 @@ def generateTable(items, genomstable):
     return table
 
 
-def createPlot(genoms1, genoms2, best_values, avg_values, plotGenomValues, iterationsArr):
+def createPlot(genoms1, genoms2, best_values, avg_values, plotGenomValues, iterationsArr, stringOnPlot):
     # Create a figure with a 3x2 grid of subplots
     fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
     plt.subplots_adjust(left=None, bottom=None, right=None,
@@ -128,7 +128,7 @@ def createPlot(genoms1, genoms2, best_values, avg_values, plotGenomValues, itera
     axs[1, 2].plot(iterationsArr, best_values, label='Best')
     axs[1, 2].plot(iterationsArr, avg_values, label='Average')
     axs[1, 2].set_position([0.7, 0.35, 0.228, 0.343])
-    plt.xlabel('Generation')
+    plt.xlabel(f'Generation\n \n \n {stringOnPlot[0]} \n {stringOnPlot[1]}')
     plt.ylabel('Values')
     plt.title('Evolution of genoms using Genetic Algorithm')
     plt.legend()
@@ -156,6 +156,7 @@ def main():
     avg_values = []
     iterationCopies = []
     plotGenomValues = []
+    stringOnPlot = []
     genoms = [generateGenom() for _ in range(populationNb)]
     genoms1 = genoms
     for iteration in range(iterations):
@@ -173,13 +174,15 @@ def main():
             children.append(mutation(crossover(parents[0], parents[1])))
         genoms = children
         genoms2 = children
+        stringOnPlot.append(str("Best genom of "+ str(iteration+1) +" iteration: " + str(genomsValues.index(max(genomsValues)))))
         best_values.append(max(genomsValues))
         avg_values.append(sum(genomsValues) / len(genomsValues))
         plotGenomValues.append(genomsValues)
+        print(stringOnPlot[iteration])
 
     iterationsArr = range(iterations)
     createPlot(genoms1, genoms2, best_values, avg_values,
-               plotGenomValues, iterationsArr)
+               plotGenomValues, iterationsArr, stringOnPlot)
 
 
 main()
